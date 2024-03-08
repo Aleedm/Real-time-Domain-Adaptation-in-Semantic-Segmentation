@@ -45,6 +45,13 @@ This repository provides a starter-code setup for the Real-time Domain Adaptatio
 
 ## Results
 
+![results](image/all.png)
+*Comparative visualization of semantic segmentation results across different models and techniques. Each row shows the original Cityscapes image
+with corresponding segmentation outputs. From left to right: the raw image, segmentation without data augmentation and domain adaptation (DA), with data
+augmentation but no DA, with DA using a classical convolutional approach, with DA employing depthwise separable convolutions, with DA utilizing diagonal
+depthwise separable convolutions, and the ground truth (GT) segmentation. These visual results highlight the progressive improvement in segmentation fidelity
+as we move from standard methods to advanced DA techniques*
+
 | Train Datasets                                                                                | Validation Datasets | Accuracy _(%)_ | mIoU _(%)_ | Train Time (avg per-epochs) |
 |-----------------------------------------------------------------------------------------------|---------------------|----------------|------------|-----------------------------|
 | Cityscapes                                                                                    | Cityscapes          | 81             | 57.8       | 2:33 minutes                |
@@ -54,3 +61,7 @@ This repository provides a starter-code setup for the Real-time Domain Adaptatio
 | Single Layer DA <br/> Source=GTA, Target=Cityscapes                                           | Cityscapes          | 74.3           | 33.8       | 4:33 minutes                |
 | Single Layer DA <br/> Source=GTA, Target=Cityscapes <br/> Depthwise discriminator function    | Cityscapes          | 73.1           | 32.7       | 4:32 minutes                |
 | Single Layer DA <br/> Source=GTA, Target=Cityscapes <br/> Diagonalwise discriminator function | Cityscapes          | 74.0           | 33.5       | 4:25 minutes                |
+
+
+| ![loss](image/loss.png) | ![miou](image/miou.png) | ![precision](image/precision.png) |
+|:--:|:--:|:--:|

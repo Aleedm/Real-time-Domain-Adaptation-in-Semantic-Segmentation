@@ -191,12 +191,12 @@ def train_adversarial(args, G, D, optimizer_G, optimizer_D, dataloader_gta5, dat
             with amp.autocast():
                 # Forward pass of Cityscapes datasets through the discriminator
                 d_cityscapes = D(output_cityscapes)
-                d_label_cityscapes = torch.zeros(d_cityscapes.size(0), 1, d_cityscapes.size(2),
+                d_label_gta5 = torch.ones(d_cityscapes.size(0), 1, d_cityscapes.size(2),
                                                  d_cityscapes.size(
-                                                     3)).cuda()  # Labels are 0 for Cityscapes datasets
+                                                     3)).cuda()  # Labels are 1 for GTA5 datasets
 
                 # the adversarial loss is calculated on the target prediction
-                loss_adv_cityscapes = loss_func_adv(d_cityscapes, d_label_cityscapes)
+                loss_adv_cityscapes = loss_func_adv(d_cityscapes, d_label_gta5)
 
             loss_adv = loss_adv_cityscapes * lambda_adv
 
@@ -219,8 +219,6 @@ def train_adversarial(args, G, D, optimizer_G, optimizer_D, dataloader_gta5, dat
                 train_time_end_prova = timer()
 
                 # Calculate loss for GTA5 datasets
-                d_label_gta5 = torch.ones(d_gta5.size(0), 1, d_gta5.size(2),
-                                          d_gta5.size(3)).cuda()  # Labels are 1 for GTA5 datasets
                 loss_d_gta5 = loss_func_d(d_gta5, d_label_gta5)
 
             scaler.scale(loss_d_gta5).backward()  # Scale loss and perform backpropagation
@@ -230,6 +228,10 @@ def train_adversarial(args, G, D, optimizer_G, optimizer_D, dataloader_gta5, dat
             with amp.autocast():
                 # Forward pass of Cityscapes datasets through the discriminator
                 d_cityscapes = D(output_cityscapes.detach())
+                
+                d_label_cityscapes = torch.zeros(d_cityscapes.size(0), 1, d_cityscapes.size(2),
+                                                 d_cityscapes.size(
+                                                     3)).cuda()  # Labels are 0 for Cityscapes datasets
 
                 # Calculate loss for Cityscapes datasets
                 loss_d_cityscapes = loss_func_d(d_cityscapes, d_label_cityscapes)
